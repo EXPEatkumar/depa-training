@@ -160,7 +160,7 @@ def ccr_prepare_joined_dataset_full(spark, dataset_info,joined_dataset_config,qu
     drop_columns=joined_dataset_config["drop_columns"]
     return_dataset_step3=return_dataset_step2.drop(*drop_columns)
     return_dataset_final = return_dataset_step3
-
+    
     return_dataset_final.toPandas().to_csv(model_file)
 
     if debug:
@@ -226,10 +226,10 @@ def execute(query_config):
   dataset_info=generate_data_info(spark, tdp_config_list) 
   model_output_folder = joined_dataset_config["model_output_folder"]
   #sandbox_joined_anon_simplified=ccr_prepare_joined_dataset_full(dataset_info,query,joined_dataset_config["model_file"],debug=True)
-  model_file= joined_dataset_config["joined_dataset"]
+  model_file= '/tmp/model_file/'+joined_dataset_config["joined_dataset"]
   sandbox_joined_anon_simplified=ccr_prepare_joined_dataset_full(spark, dataset_info,joined_dataset_config, query, model_file,debug=True)
-  print("Generating aggregated data in " + model_output_folder + model_file)
-  sandbox_joined_without_key_identifiers=ccr_create_joined_dataset_wo_identifiers(sandbox_joined_anon_simplified,joined_dataset_config, model_output_folder + model_file,True)
+  print("Generating aggregated data in " + model_output_folder + joined_dataset_config["joined_dataset"])
+  sandbox_joined_without_key_identifiers=ccr_create_joined_dataset_wo_identifiers(sandbox_joined_anon_simplified,joined_dataset_config, model_output_folder + joined_dataset_config["joined_dataset"],True)
 
 
 def main(argv=None):
